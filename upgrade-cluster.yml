@@ -1,0 +1,26 @@
+- hosts: all
+  tasks:
+   - name: update Docker
+     yum:
+       name:
+         - docker-ce
+         - docker-ce-cli
+         - containerd.io
+       state: latest
+
+   - name: update kubelet
+     yum:
+       name: kubelet
+       state: latest
+
+   - name: update kubeadm
+     yum:
+       name: kubeadm
+       state: latest
+
+- hosts: master
+  tasks:
+   - name: update kubectl
+     yum:
+       name: kubectl
+       state: latest

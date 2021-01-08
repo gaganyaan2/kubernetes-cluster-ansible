@@ -1,0 +1,15 @@
+- hosts: master
+  tasks:
+    - name: Initialize the cluster
+      shell: kubeadm init > init.txt
+
+    - name: Copy admin.conf to user's kube config
+      shell: |
+        mkdir -p $HOME/.kube
+        cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+        chown $(id -u):$(id -g) $HOME/.kube/config
+
+    - name: Install weave Pod network
+      shell: |
+        export kv=$(kubectl version | base64 | tr -d '\n')
+        kubectl apply -f "https://cloud.weave.works/k8s/net?k8s-version=$kv"
