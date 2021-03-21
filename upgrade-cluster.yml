@@ -1,10 +1,13 @@
 - hosts: all
   tasks:
-   - name: stop k8 running services
+   - name: stop kubelet service
      systemd:
-       name:
-         - docker
-         - kubelet
+       name: kubelet
+       state: stopped
+
+   - name: stop docker service
+     systemd:
+       name: docker
        state: stopped
 
    - name: update Docker
