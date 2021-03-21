@@ -1,5 +1,12 @@
 - hosts: all
   tasks:
+   - name: stop k8 running services
+     systemd:
+       name:
+         - docker
+         - kubelet
+       state: stopped
+
    - name: update Docker
      yum:
        name:
@@ -24,3 +31,8 @@
      yum:
        name: kubectl
        state: latest
+
+- hosts: all
+  tasks:
+   - name: reboot k8 cluster nodes
+     reboot:
