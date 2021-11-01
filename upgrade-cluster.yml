@@ -34,6 +34,9 @@
      yum:
        name: kubectl
        state: latest
+       
+   - name: upgrade cluster
+     shell: "kubeadm upgrade apply v1.22.3 -y" #add required version
 
 - hosts: all
   tasks:
