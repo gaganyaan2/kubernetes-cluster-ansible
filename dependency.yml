@@ -18,9 +18,10 @@
        state: latest
        update_cache: true
 
-#change docker driver to systemd
-#sed -i 's|/usr/bin/dockerd|/usr/bin/dockerd --exec-opt native.cgroupdriver=systemd|g' /usr/lib/systemd/system/docker.service
-#systemctl daemon-reload
+   - name: Cahnge docker driver to systemd
+     shell: |
+       sed -i 's|/usr/bin/dockerd|/usr/bin/dockerd --exec-opt native.cgroupdriver=systemd|g' /usr/lib/systemd/system/docker.service
+       systemctl daemon-reload
 
    - name: Start and enable Docker
      service:
@@ -55,6 +56,11 @@
        sed -i ""$swapline"s/.*/#&/" /etc/fstab
        fi
 
+   - name: Disable Selinux
+     shell: |
+       setenforce 0
+       sed -i s/^SELINUX=.*$/SELINUX=permissive/ /etc/selinux/config
+       
    - name: Add Kubernetes repository
      yum_repository:
        name: kubernetes
