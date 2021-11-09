@@ -18,6 +18,10 @@
        state: latest
        update_cache: true
 
+#change docker driver to systemd
+#sed -i 's|/usr/bin/dockerd|/usr/bin/dockerd --exec-opt native.cgroupdriver=systemd|g' /usr/lib/systemd/system/docker.service
+#systemctl daemon-reload
+
    - name: Start and enable Docker
      service:
        name: docker
