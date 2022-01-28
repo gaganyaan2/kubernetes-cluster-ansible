@@ -1,44 +1,43 @@
-- hosts: all
-  tasks:
-   - name: stop kubelet service
-     systemd:
-       name: kubelet
-       state: stopped
-
-   - name: stop docker service
-     systemd:
-       name: docker
-       state: stopped
-
-   - name: update Docker
-     yum:
-       name:
-         - docker-ce
-         - docker-ce-cli
-         - containerd.io
-       state: latest
-
-   - name: update kubelet
-     yum:
-       name: kubelet
-       state: latest
-
-   - name: update kubeadm
-     yum:
-       name: kubeadm
-       state: latest
-
 - hosts: master
   tasks:
-   - name: update kubectl
-     yum:
-       name: kubectl
+   - name: update kubeadm kubelet kubectl on k8 control node
+     package:
+       name:
+         - kubeadm
+         - kubelet
+         - kubectl
        state: latest
        
    - name: upgrade cluster
-     shell: "kubeadm upgrade apply v1.22.3 -y" #add required version
+     shell: "kubeadm upgrade apply v1.23.3 -y" #add required version
+     
+   - name: restart kubelet service
+     systemd:
+       name: kubelet
+       state: restarted
+       daemon_reload: yes
+       
 
 - hosts: all
+   - name: update kubeadm
+     package:
+       name: kubeadm
+       state: latest
+
+   - name: update kubelet
+     package:
+       name: kubelet
+       state: latest
+
+       
+- hosts: workers
   tasks:
-   - name: reboot k8 cluster nodes
-     reboot:
+   - name: worker node kubeadm upgrade 
+     shell: kubeadm upgrade node
+     
+   - name: restart kubelet service
+     systemd:
+       name: kubelet
+       state: restarted
+       daemon_reload: yes
+       
