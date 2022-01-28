@@ -19,6 +19,7 @@
        
 
 - hosts: all
+  tasks:
    - name: update kubeadm
      package:
        name: kubeadm
