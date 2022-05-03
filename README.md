@@ -4,12 +4,16 @@
 
 2. Run below ansible script to setup kubernetes cluster
 
-`ansible-playbook -i hosts dependency.yml`
+```bash
+ansible-playbook -i hosts dependency.yml
 
-`ansible-playbook -i hosts master.yml`
+ansible-playbook -i hosts master.yml
 
-`ansible-playbook -i hosts worker.yml`
+ansible-playbook -i hosts worker.yml
+```
 
 ### Upgrade kubernetes cluster
 
-`ansible-playbook -i hosts upgrade-cluster.yml`
+```bash
+ansible-playbook -i hosts upgrade-cluster.yml
+```
