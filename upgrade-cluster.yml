@@ -9,7 +9,7 @@
        state: latest
        
    - name: upgrade cluster
-     shell: "kubeadm upgrade apply v1.23.3 -y" #add required version
+     shell: "kubeadm upgrade apply v1.24.3 -y" #add required version
      
    - name: restart kubelet service
      systemd:
@@ -33,9 +33,6 @@
        
 - hosts: workers
   tasks:
-   - name: worker node kubeadm upgrade 
-     shell: kubeadm upgrade node
-     
    - name: restart kubelet service
      systemd:
        name: kubelet
